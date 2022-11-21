@@ -11,8 +11,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_appcontext(self):
-    '''method exits storage by calling close'''
+    """method exits storage by calling close"""
     storage.close()
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """method used if page not found (404)"""
+    return (jsonify({"error": "Not found"}), 404)
 
 if __name__ == "__main__":
     hosts = getenv('HBNB_API_HOST', default='0.0.0.0')
