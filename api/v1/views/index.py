@@ -5,10 +5,12 @@ from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 
+
 @app_views.route("/status", methods=['GET'], strict_slashes=False)
 def status():
-	"""method shows the status of the API in JSON format"""
-	return jsonify({"status": "OK"})
+    """method shows the status of the API in JSON format"""
+    return jsonify({"status": "OK"})
+
 
 @app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def stats():
