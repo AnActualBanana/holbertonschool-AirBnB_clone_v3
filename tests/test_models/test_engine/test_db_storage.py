@@ -70,33 +70,33 @@ test_db_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
-    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    # def test_all_returns_dict(self):
-    #     """Test that all returns a dictionaty"""
-    #     self.assertIs(type(models.storage.all()), dict)
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_returns_dict(self):
+        """Test that all returns a dictionaty"""
+        self.assertIs(type(models.storage.all()), dict)
 
-    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    # def test_all_no_class(self):
-    #     """Test that all returns all rows when no class is passed"""
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_no_class(self):
+        """Test that all returns all rows when no class is passed"""
 
-    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    # def test_new(self):
-    #     """test that new adds an object to the database"""
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_new(self):
+        """test that new adds an object to the database"""
 
-    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    # def test_save(self):
-    #     """Test that save properly saves objects to file.json"""
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """Test that save properly saves objects to file.json"""
 
     def test_get(self):
         """Test that storage.get returns the correct object"""
-        new_state = State()
-        models.storage.new(new_state)
+        new_state = State(name="test_state")
+        new_state.save()
         self.assertIs(models.storage.get(State, new_state.id), new_state)
 
     def test_count(self):
         """Test that storage.count returns the correct number"""
         count1 = models.storage.count()
-        new_state2 = State()
-        models.storage.new(new_state2)
+        new_state2 = State(name="test_state2")
+        new_state2.save()
         count2 = models.storage.count()
         self.assertIs(count2, count1 + 1)
