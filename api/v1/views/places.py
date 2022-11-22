@@ -62,7 +62,9 @@ def post_place(city_id):
         abort(404)
     elif 'name' not in request.json:
         abort(400, 'Missing name')
-    new_place = Place(**request.get_json())
+    place = request.get_json()
+    place['city_id'] = city_id
+    new_place = Place(**place)
     new_place.save()
     return jsonify(new_place.to_dict()), 201
 
