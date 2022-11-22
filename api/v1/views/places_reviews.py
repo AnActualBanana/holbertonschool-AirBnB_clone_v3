@@ -62,7 +62,9 @@ def post_review(place_id):
         abort(404)
     elif 'text' not in request.json:
         abort(400, 'Missing text')
-    new_review = Review(**request.get_json())
+    review = request.get_json()
+    review['place_id'] = place_id
+    new_review = Review(**review)
     new_review.save()
     return jsonify(new_review.to_dict()), 201
 
