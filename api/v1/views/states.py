@@ -30,18 +30,18 @@ def state(state_id):
 @app_views.route(
     "/states/<state_id>", methods=['DELETE'], strict_slashes=False)
 def del_state(state_id):
-    """method retrieves a State object in JSON format"""
+    """method deletes a State object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
     else:
         storage.delete(state)
-        return jsonify({})
+        return jsonify({}), 200
 
 
 @app_views.route("/states", methods=['POST'], strict_slashes=False)
 def post_state():
-    """method retrieves a State object in JSON format"""
+    """method creates a new State object"""
     if not request.json or not request.is_json:
         abort(400, 'Not a JSON')
     elif 'name' not in request.json:
@@ -54,14 +54,16 @@ def post_state():
 
 @app_views.route("/states/<state_id>", methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
-    """method retrieves a State object in JSON format"""
+    """method updates an existing State object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
     elif not request.json or not request.is_json:
         abort(400, 'Not a JSON')
     else:
+        ignore = ['id', 'created_at', 'updated_at']
         for key, value in request.get_json().items():
-            setattr(state, key, value)
+            if key not in ignore:
+                setattr(state, key, value)
         state.save()
         return jsonify(state.to_dict())
